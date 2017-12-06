@@ -10,6 +10,7 @@ fn main() {
 
     let bindings = bindgen::Builder::default()
         .header("icu.h")
+        .blacklist_type("max_align_t")
         .generate()
         .expect("Unable to generate bindings... hm, why?");
 
