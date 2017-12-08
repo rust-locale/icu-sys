@@ -11,6 +11,8 @@ fn main() {
     let bindings = bindgen::Builder::default()
         .header("build/icu-std.h")
         .blacklist_type("max_align_t")
+        .prepend_enum_name(false)
+        .derive_default(true)
         .generate()
         .expect("Unable to generate bindings... hm, why?");
 
