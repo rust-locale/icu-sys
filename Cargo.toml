@@ -13,7 +13,7 @@ readme = "README.md"
 keywords = ["i18n", "unicode", "cldr"]
 categories = ["os"]
 
-build = "build.rs"
+build = "build/build.rs"
 links = "icu"
 
 [build-dependencies]

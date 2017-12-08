@@ -9,7 +9,7 @@ fn main() {
     println!("cargo:rustc-link-lib=icudata");
 
     let bindings = bindgen::Builder::default()
-        .header("icu.h")
+        .header("build/icu-std.h")
         .blacklist_type("max_align_t")
         .generate()
         .expect("Unable to generate bindings... hm, why?");

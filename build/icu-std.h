@@ -1,4 +1,4 @@
-// Here we include all the bits of ICU we are going to bind to Rust
+// Headers we want from the vendored, reduced implementation
 
 // Locale metadata
 #include <unicode/uloc.h>
