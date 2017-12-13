@@ -1,4 +1,5 @@
 extern crate bindgen;
+extern crate pkg_config;
 extern crate regex;
 
 use std::env;
@@ -8,11 +9,12 @@ use std::path::PathBuf;
 use std::borrow::{Borrow,ToOwned};
 
 fn main() {
-    println!("cargo:rustc-link-lib=icui18n");
-    println!("cargo:rustc-link-lib=icuuc");
-    println!("cargo:rustc-link-lib=icudata");
+    let library = pkg_config::Config::new()
+        .probe("icu-i18n")
+        .expect("ICU i18n not found"); // TODO: go down the vendored route
 
     let bindings = bindgen::Builder::default()
+        .clang_args(library.include_paths.iter().map(|p| "-I".to_owned() + p.to_str().unwrap()))
         .header("build/icu-std.h")
         .blacklist_type("max_align_t")
         .prepend_enum_name(false)
