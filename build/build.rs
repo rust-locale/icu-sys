@@ -24,9 +24,9 @@ fn main() {
         .to_string();
 
     // detect and remove the suffix
-    let detect_re = regex::Regex::new(r"pub fn u_getVersion(.*)\(").unwrap();
+    let detect_re = regex::Regex::new(r"pub fn u_getVersion(\w*)\s*\(").unwrap();
     let suffix = detect_re.captures(&*bindings).unwrap().get(1).unwrap().as_str();
-    let function_re = regex::Regex::new((r"pub fn ((.*)".to_owned() + suffix + r")\(").borrow()).unwrap();
+    let function_re = regex::Regex::new((r"pub fn ((.*)".to_owned() + suffix + r")\s*\(").borrow()).unwrap();
     let bindings_renamed = function_re.replace_all(bindings.borrow(), "#[link_name = \"$1\"] pub fn $2(");
 
     let out_dir = PathBuf::from(env::var("OUT_DIR").unwrap());
