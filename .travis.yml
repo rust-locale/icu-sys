@@ -1,0 +1,35 @@
+# Environment
+dist: trusty
+sudo: required
+services: docker
+
+# General setup
+language: rust
+rust: stable
+
+install:
+  - rustup self update
+  - rustup target list
+  - if [ -n "$TARGET" ]; then cargo install cross; fi
+  - if [ -n "$TARGET" ]; then rustup target add $TARGET; fi
+  - if [ -n "$SYSTEM" -a "$TRAVIS_OS_NAME" = linux ]; then sudo apt-get install libicu-dev; fi
+  - if [ -n "$SYSTEM" -a "$TRAVIS_OS_NAME" = osx ]; then brew install icu4c; fi
+
+script:
+  - cargo test --verbose
+
+# The builds:
+matrix:
+  include:
+    # Builds using the system 
+    - env: SYSTEM=yes
+    - env: SYSTEM=yes
+      os: osx
+    # TODO: Builds using icu4c built from source
+    # TODO: Builds using cross
+
+# Other settings
+cache: cargo
+before_cache:
+  # Travis can't cache files that are not readable by "others"
+  - chmod -R a+r $HOME/.cargo
