@@ -13,7 +13,6 @@ install:
   - if [ -n "$TARGET" ]; then cargo install cross; fi
   - if [ -n "$TARGET" ]; then rustup target add $TARGET; fi
   - if [ -n "$SYSTEM" -a "$TRAVIS_OS_NAME" = linux ]; then sudo apt-get install libicu-dev; fi
-  - if [ -n "$SYSTEM" -a "$TRAVIS_OS_NAME" = osx ]; then brew install icu4c; fi
 
 script:
   - cargo test --verbose

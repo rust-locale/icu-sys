@@ -9,6 +9,15 @@ use std::path::PathBuf;
 use std::borrow::{Borrow,ToOwned};
 
 fn main() {
+    let host = env::var("HOST").unwrap_or("".to_owned());
+    let target = env::var("TARGET").unwrap_or("".to_owned());
+
+    // On Darwin (MacOS), add the default icu4c install directory to PKG_CONFIG_PATH
+    if host == target && target.ends_with("-apple-darwin") {
+        let path = env::var("PKG_CONFIG_PATH").map(|s| s + ":").unwrap_or("".to_owned());
+        env::set_var("PKG_CONFIG_PATH", path + "/usr/local/opt/icu4c/lib/pkgconfig");
+    }
+
     let library = pkg_config::Config::new()
         .probe("icu-i18n")
         .expect("ICU i18n not found"); // TODO: go down the vendored route
